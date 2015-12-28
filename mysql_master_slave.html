@@ -40,27 +40,31 @@ server-id=1
 log-bin=mysql-bin
 #指定日志格式，可以按照运行的SQL语句记录，或者按照物理磁盘上数据记录，建议	使用mixed方式，好处在于mysql会自己主动的去判断该怎么样来记录操作。
 binlog-format=mixd/row/statement
-#创建一个授权账号，需要登录mysql。在实现主从复制的时候，并不能让不是自己设定的服务器来连接。
+
+创建一个授权账号，需要登录mysql。在实现主从复制的时候，并不能让不是自己设定的服务器来连接。
 grant replication slave, replication client on *.* to ‘repl’@’%’ identified by ‘admin88’
 flush privileges
-#重启mysql
+重启mysql
 service mysqld restart
-#查看主服务器状态
+查看主服务器状态
 show master status
 
 2. 修改从服务器的配置文件（/etc/my.cnf）
-#从服务器起一个唯一的账号
+从服务器起一个唯一的账号
 server-id=2
-#开启中级日志（从服务器从主服务器上读取的数据多少还是有些不一样的（读取时bin日志文件），需要在本地形成自己能理解的中继日志）
+
+开启中级日志（从服务器从主服务器上读取的数据多少还是有些不一样的（读取时bin日志文件），需要在本地形成自己能理解的中继日志）
 relay-log=mysql-relay
-#规定从服务器只能读
+
+规定从服务器只能读
 read-only=1
-#连接主服务器
+
+连接主服务器
 change master to master_host= ‘192.168.35.239’,
 master_user=’repl’,master_password=’admin88’,
 master_log_file=’mysql-bin.000005’,master_log_pos=107
 
-#启动从服务器
+启动从服务器
 start slave | reset slave | stop slave
 
 
@@ -92,44 +96,33 @@ start slave | reset slave | stop slave
 
 <p>binlog-format=mixd/row/statement</p>
 
-<h1 id="mysql">创建一个授权账号，需要登录mysql。在实现主从复制的时候，并不能让不是自己设定的服务器来连接。</h1>
-
-<p>grant replication slave, replication client on <em>.</em> to ‘repl’@’%’ identified by ‘admin88’
-flush privileges</p>
-
-<h1 id="mysql">重启mysql</h1>
-
-<p>service mysqld restart</p>
-
-<h1 id="">查看主服务器状态</h1>
-
-<p>show master status</p>
+<p>创建一个授权账号，需要登录mysql。在实现主从复制的时候，并不能让不是自己设定的服务器来连接。
+grant replication slave, replication client on <em>.</em> to ‘repl’@’%’ identified by ‘admin88’
+flush privileges
+重启mysql
+service mysqld restart
+查看主服务器状态
+show master status</p>
 
 <ol>
-<li>修改从服务器的配置文件（/etc/my.cnf）</li>
+<li>修改从服务器的配置文件（/etc/my.cnf）
+从服务器起一个唯一的账号
+server-id=2</li>
 </ol>
 
-<h1 id="">从服务器起一个唯一的账号</h1>
+<p>开启中级日志（从服务器从主服务器上读取的数据多少还是有些不一样的（读取时bin日志文件），需要在本地形成自己能理解的中继日志）
+relay-log=mysql-relay</p>
 
-<p>server-id=2</p>
+<p>规定从服务器只能读
+read-only=1</p>
 
-<h1 id="bin">开启中级日志（从服务器从主服务器上读取的数据多少还是有些不一样的（读取时bin日志文件），需要在本地形成自己能理解的中继日志）</h1>
-
-<p>relay-log=mysql-relay</p>
-
-<h1 id="">规定从服务器只能读</h1>
-
-<p>read-only=1</p>
-
-<h1 id="">连接主服务器</h1>
-
-<p>change master to master<em>host= ‘192.168.35.239’,
+<p>连接主服务器
+change master to master<em>host= ‘192.168.35.239’,
 master</em>user=’repl’,master<em>password=’admin88’,
 master</em>log<em>file=’mysql-bin.000005’,master</em>log_pos=107</p>
 
-<h1 id="">启动从服务器</h1>
-
-<p>start slave | reset slave | stop slave</p>
+<p>启动从服务器
+start slave | reset slave | stop slave</p>
 <!-- content end -->
 </div>
 <br>
