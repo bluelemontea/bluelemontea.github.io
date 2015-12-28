@@ -34,18 +34,22 @@
 
 1. 修改主服务器的配置文件（/etc/my.cnf）
  
-#给服务器起一个唯一的id
+给服务器起一个唯一的id
 server-id=1
-#开启二进制日志
+
+开启二进制日志
 log-bin=mysql-bin
-#指定日志格式，可以按照运行的SQL语句记录，或者按照物理磁盘上数据记录，建议	使用mixed方式，好处在于mysql会自己主动的去判断该怎么样来记录操作。
+
+指定日志格式，可以按照运行的SQL语句记录，或者按照物理磁盘上数据记录，建议	使用mixed方式，好处在于mysql会自己主动的去判断该怎么样来记录操作。
 binlog-format=mixd/row/statement
 
 创建一个授权账号，需要登录mysql。在实现主从复制的时候，并不能让不是自己设定的服务器来连接。
 grant replication slave, replication client on *.* to ‘repl’@’%’ identified by ‘admin88’
 flush privileges
+
 重启mysql
 service mysqld restart
+
 查看主服务器状态
 show master status
 
@@ -66,9 +70,6 @@ master_log_file=’mysql-bin.000005’,master_log_pos=107
 
 启动从服务器
 start slave | reset slave | stop slave
-
-
-
 <!-- markdown end -->
 </div>
 <div class="entry" id="main">
@@ -84,24 +85,23 @@ start slave | reset slave | stop slave
 <li>修改主服务器的配置文件（/etc/my.cnf）</li>
 </ol>
 
-<h1 id="id">给服务器起一个唯一的id</h1>
+<p>给服务器起一个唯一的id
+server-id=1</p>
 
-<p>server-id=1</p>
+<p>开启二进制日志
+log-bin=mysql-bin</p>
 
-<h1 id="">开启二进制日志</h1>
-
-<p>log-bin=mysql-bin</p>
-
-<h1 id="sqlmixedmysql">指定日志格式，可以按照运行的SQL语句记录，或者按照物理磁盘上数据记录，建议    使用mixed方式，好处在于mysql会自己主动的去判断该怎么样来记录操作。</h1>
-
-<p>binlog-format=mixd/row/statement</p>
+<p>指定日志格式，可以按照运行的SQL语句记录，或者按照物理磁盘上数据记录，建议    使用mixed方式，好处在于mysql会自己主动的去判断该怎么样来记录操作。
+binlog-format=mixd/row/statement</p>
 
 <p>创建一个授权账号，需要登录mysql。在实现主从复制的时候，并不能让不是自己设定的服务器来连接。
 grant replication slave, replication client on <em>.</em> to ‘repl’@’%’ identified by ‘admin88’
-flush privileges
-重启mysql
-service mysqld restart
-查看主服务器状态
+flush privileges</p>
+
+<p>重启mysql
+service mysqld restart</p>
+
+<p>查看主服务器状态
 show master status</p>
 
 <ol>
